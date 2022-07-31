@@ -1,5 +1,6 @@
 import React from 'react';
 
+// 親コンポーネントが更新されると子コンポーネントもレンダリングされる
 // 呼び出し側からpropsを引数として受け取る
 const ColorfulMessage = (props) => {
   // 分割代入でコードを簡略化させる
