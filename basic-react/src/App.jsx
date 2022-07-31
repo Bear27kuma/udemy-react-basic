@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import ColorfulMessage from './components/ColorfulMessage';
+// 名前付きexportの場合は分割代入でimportする
+import { ColorfulMessage } from './components/ColorfulMessage';
 
 // コンポーネント名は必ず先頭を大文字から始める
 // 複数単語の命名はパスカルケースで行う（ex. SomeComponent）

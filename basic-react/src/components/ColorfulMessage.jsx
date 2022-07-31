@@ -2,7 +2,7 @@ import React from 'react';
 
 // 親コンポーネントが更新されると子コンポーネントもレンダリングされる
 // 呼び出し側からpropsを引数として受け取る
-const ColorfulMessage = (props) => {
+export const ColorfulMessage = (props) => {
   // 分割代入でコードを簡略化させる
   const { color, children } = props;
   const contentStyle = {
@@ -18,4 +18,4 @@ const ColorfulMessage = (props) => {
   );
 };
 
-export default ColorfulMessage;
+// export default ColorfulMessage;
