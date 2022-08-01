@@ -4,7 +4,7 @@ import { ColorfulMessage } from './components/ColorfulMessage';
 
 // コンポーネント名は必ず先頭を大文字から始める
 // 複数単語の命名はパスカルケースで行う（ex. SomeComponent）
-const App = () => {
+export const App = () => {
   // stateを使用する（state変数名、stateを更新する関数名）
   const [num, setNum] = useState(0);
   // stateが更新される度にReactが再レンダリングされる（変更差分が更新される）
@@ -60,4 +60,4 @@ const App = () => {
 };
 
 // 他のファイルでも使用できるようエクスポートする（コンポーネント化）
-export default App;
+// export default App;
