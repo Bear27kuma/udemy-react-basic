@@ -16,8 +16,6 @@ export const App = () => {
             <button>完了</button>
             <button>削除</button>
           </li>
-        </ul>
-        <ul>
           <li>
             <p>TODOです</p>
             <  button>完了</button>
