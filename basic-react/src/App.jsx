@@ -26,6 +26,16 @@ export const App = () => {
     setIncompleteTodo(newTodoList);
   };
 
+  // 完了ボタンがクリックされた時の挙動
+  const onClickComplete = (index) => {
+    const newIncompleteTodoList = [...incompleteTodoList];
+    newIncompleteTodoList.splice(index, 1);
+
+    const newCompleteTodoList = [...completeTodoList, incompleteTodoList[index]];
+    setIncompleteTodo(newIncompleteTodoList);
+    setCompleteTodo(newCompleteTodoList);
+  };
+
   return (
     <>
       <div className="input-area">
@@ -40,7 +50,7 @@ export const App = () => {
               // 返却する親タグにkeyを設定する必要がある（再レンダリングのため）
               <li key={todo}>
                 <p>{todo}</p>
-                <button>完了</button>
+                <button onClick={() => onClickComplete(index)}>完了</button>
                 {/*アロー関数で囲むことで即時に関数が実行されるのを防ぐ（クリックされるまでは実行されない）*/}
                 <button onClick={() => onClickDelete(index)}>削除</button>
               </li>
@@ -54,7 +64,7 @@ export const App = () => {
           {completeTodoList.map((todo) => {
             return (
               <li key={todo}>
-                <p>TODOです</p>
+                <p>{todo}</p>
                 <button>戻す</button>
               </li>
             );
