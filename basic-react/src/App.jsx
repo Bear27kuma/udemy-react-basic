@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import './styles.css';
+import { InputTodo } from './components/InputTodo';
+import { IncompleteTodoList } from './components/IncompleteTodoList';
+import { CompleteTodoList } from './components/CompleteTodoList';
 
 export const App = () => {
   // useStateでstateを宣言
@@ -48,39 +51,22 @@ export const App = () => {
 
   return (
     <>
-      <div className="input-area">
-        <input placeholder="TODOを入力" value={todoText} onChange={onChangeTodoText} />
-        <button onClick={onClickAdd}>追加</button>
-      </div>
-      <div className="incomplete-area">
-        <p className="title">未完了のTODO</p>
-        <ul>
-          {incompleteTodoList.map((todo, index) => {
-            return (
-              // 返却する親タグにkeyを設定する必要がある（再レンダリングのため）
-              <li key={todo}>
-                <p>{todo}</p>
-                <button onClick={() => onClickComplete(index)}>完了</button>
-                {/*アロー関数で囲むことで即時に関数が実行されるのを防ぐ（クリックされるまでは実行されない）*/}
-                <button onClick={() => onClickDelete(index)}>削除</button>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-      <div className="complete-area">
-        <p className="title">完了のTODO</p>
-        <ul>
-          {completeTodoList.map((todo, index) => {
-            return (
-              <li key={todo}>
-                <p>{todo}</p>
-                <button onClick={() => onClickBack(index)}>戻す</button>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+      <InputTodo
+        todoText={todoText}
+        onChange={onChangeTodoText}
+        onClick={onClickAdd}
+      />
+
+      <IncompleteTodoList
+        incompleteTodoList={incompleteTodoList}
+        onClickComplete={onClickComplete}
+        onClickDelete={onClickDelete}
+      />
+
+      <CompleteTodoList
+        completeTodoList={completeTodoList}
+        onClickBack={onClickBack}
+      />
     </>
   );
 };
