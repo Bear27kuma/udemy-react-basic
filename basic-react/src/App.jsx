@@ -36,6 +36,16 @@ export const App = () => {
     setCompleteTodo(newCompleteTodoList);
   };
 
+  // 戻すボタンをクリックした時の挙動
+  const onClickBack = (index) => {
+    const newCompleteTodoList = [...completeTodoList];
+    newCompleteTodoList.splice(index, 1);
+
+    const newIncompleteTodoList = [...incompleteTodoList, completeTodoList[index]];
+    setIncompleteTodo(newIncompleteTodoList);
+    setCompleteTodo(newCompleteTodoList);
+  };
+
   return (
     <>
       <div className="input-area">
@@ -61,11 +71,11 @@ export const App = () => {
       <div className="complete-area">
         <p className="title">完了のTODO</p>
         <ul>
-          {completeTodoList.map((todo) => {
+          {completeTodoList.map((todo, index) => {
             return (
               <li key={todo}>
                 <p>{todo}</p>
-                <button>戻す</button>
+                <button onClick={() => onClickBack(index)}>戻す</button>
               </li>
             );
           })}
