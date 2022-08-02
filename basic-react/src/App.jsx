@@ -55,7 +55,14 @@ export const App = () => {
         todoText={todoText}
         onChange={onChangeTodoText}
         onClick={onClickAdd}
+        // TODOの上限を設定する
+        disabled={incompleteTodoList.length >= 5}
       />
+      {incompleteTodoList.length >= 5 &&
+      (<p style={{ color: 'red', marginLeft: '1rem' }}>
+        登録できるTODOは5つまでです。消化してください。
+      </p>)
+      }
 
       <IncompleteTodoList
         incompleteTodoList={incompleteTodoList}
