@@ -46,23 +46,6 @@ button:hover {
     border-radius: 1rem;
 }
 
-.input-area {
-    display: flex;
-    align-items: center;
-    height: 5rem;
-    background-color: #c1ffff;
-}
-
-.incomplete-area {
-    min-height: 20rem;
-    background-color: #c6ffe2;
-}
-
-.complete-area {
-    min-height: 20rem;
-    background-color: #ffffe0;
-}
-
 .title {
     margin-top: 0;
     margin-bottom: 2rem;

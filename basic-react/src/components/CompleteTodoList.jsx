@@ -1,9 +1,14 @@
 import React from 'react';
 
+const completeArea = {
+  minHeight: '20rem',
+  backgroundColor: '#ffffe0'
+};
+
 export const CompleteTodoList = (props) => {
   const { completeTodoList, onClickBack } = props;
   return (
-    <div className="complete-area">
+    <div className="complete-area" style={completeArea}>
       <p className="title">完了のTODO</p>
       <ul>
         {completeTodoList.map((todo, index) => {
