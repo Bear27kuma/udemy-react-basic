@@ -1,63 +1,79 @@
-import React, { useEffect, useState } from 'react';
-// 名前付きexportの場合は分割代入でimportする
-import { ColorfulMessage } from './components/ColorfulMessage';
+import React, { useState } from 'react';
+import './styles.css';
+import { InputTodo } from './components/InputTodo';
+import { IncompleteTodoList } from './components/IncompleteTodoList';
+import { CompleteTodoList } from './components/CompleteTodoList';
 
-// コンポーネント名は必ず先頭を大文字から始める
-// 複数単語の命名はパスカルケースで行う（ex. SomeComponent）
 export const App = () => {
-  // stateを使用する（state変数名、stateを更新する関数名）
-  const [num, setNum] = useState(0);
-  // stateが更新される度にReactが再レンダリングされる（変更差分が更新される）
-  const [faceShowFlag, setFaceShowFlag] = useState(false);
+  // useStateでstateを宣言
+  const [todoText, setTodoText] = useState('');
+  const [incompleteTodoList, setIncompleteTodo] = useState(['TODOです', 'TODOみたい']);
+  const [completeTodoList, setCompleteTodo] = useState(['TODOでした']);
 
-  const onClickCountUp = () => {
-    setNum(num + 1);
+  // 引数にイベントを取る
+  const onChangeTodoText = (event) => setTodoText(event.target.value);
+
+  // 追加ボタンがクリックされた時の挙動
+  const onClickAdd = () => {
+    if (todoText === '') return;
+    const newTodoList = [...incompleteTodoList, todoText];
+    setIncompleteTodo(newTodoList);
+    setTodoText('');
   };
-  const onClickSwitchShowFlag = () => {
-    setFaceShowFlag(!faceShowFlag);
-  }
 
-  // useEffectを使うことで、最初のみ実行したい処理を記述することができる（関心の分離）
-  // 第2引数にセットした変数に変更があった時のみ処理が走る
-  useEffect(() => {
-    if (num > 0) {
-      if (num % 3 === 0) {
-        faceShowFlag || setFaceShowFlag(true);
-      } else {
-        faceShowFlag && setFaceShowFlag(false);
-      }
-    }
-  }, [num]);
+  // 削除ボタンがクリックされた時の挙動
+  const onClickDelete = (index) => {
+    const newTodoList = [...incompleteTodoList];
+    // 指定した要素を削除する
+    newTodoList.splice(index, 1);
+    setIncompleteTodo(newTodoList);
+  };
 
-  // const contentLadyStyle = {
-  //   color: 'pink',
-  //   fontSize: '18px'
-  // };
+  // 完了ボタンがクリックされた時の挙動
+  const onClickComplete = (index) => {
+    const newIncompleteTodoList = [...incompleteTodoList];
+    newIncompleteTodoList.splice(index, 1);
+
+    const newCompleteTodoList = [...completeTodoList, incompleteTodoList[index]];
+    setIncompleteTodo(newIncompleteTodoList);
+    setCompleteTodo(newCompleteTodoList);
+  };
+
+  // 戻すボタンをクリックした時の挙動
+  const onClickBack = (index) => {
+    const newCompleteTodoList = [...completeTodoList];
+    newCompleteTodoList.splice(index, 1);
+
+    const newIncompleteTodoList = [...incompleteTodoList, completeTodoList[index]];
+    setIncompleteTodo(newIncompleteTodoList);
+    setCompleteTodo(newCompleteTodoList);
+  };
+
   return (
-    // JSX記法は一つのタグで囲んだ内容しかレンダリングできない
-    // React.Fragmentで囲うことで不要なHTMLタグをレンダリングしない（<React.Fragment>と<>は同じ意味）
     <>
-      {/*styleはJSのオブジェクトとしてセットすることができる*/}
-      <h1 style={{ color: 'red' }}>こんにちは!</h1>
+      <InputTodo
+        todoText={todoText}
+        onChange={onChangeTodoText}
+        onClick={onClickAdd}
+        // TODOの上限を設定する
+        disabled={incompleteTodoList.length >= 5}
+      />
+      {incompleteTodoList.length >= 5 &&
+      (<p style={{ color: 'red', marginLeft: '1rem' }}>
+        登録できるTODOは5つまでです。消化してください。
+      </p>)
+      }
 
-      {/*別で定義したオブジェクトをstyleに当てることもできる*/}
-      {/*<p style={contentStyle}>お元気ですか？</p>*/}
+      <IncompleteTodoList
+        incompleteTodoList={incompleteTodoList}
+        onClickComplete={onClickComplete}
+        onClickDelete={onClickDelete}
+      />
 
-      {/*propsとして値をコンポーネント側に渡す（props名は任意）*/}
-      <ColorfulMessage color="blue">お元気ですか？</ColorfulMessage>
-      {/*<p style={contentLadyStyle}>元気です!</p>*/}
-      <ColorfulMessage color="pink">元気です!</ColorfulMessage>
-
-      {/*JSX記法の場合、HTMLの属性はキャメルケースで記述する*/}
-      {/*JSXでは波括弧はJSの記述の意味*/}
-      <button onClick={onClickCountUp}>カウントアップ</button>
-      <br/>
-      <button onClick={onClickSwitchShowFlag}>on/off</button>
-      <p>{num}</p>
-      {faceShowFlag && <p>( ・∇・)</p>}
+      <CompleteTodoList
+        completeTodoList={completeTodoList}
+        onClickBack={onClickBack}
+      />
     </>
   );
 };
-
-// 他のファイルでも使用できるようエクスポートする（コンポーネント化）
-// export default App;
